@@ -80,6 +80,9 @@ class Client(object):
             param.data = new_param.data.clone()
 
     def test_metrics(self):
+        """
+        客户端在自己的数据集上测试
+        """
         testloaderfull = self.load_test_data()
         # self.model = self.load_model('model')
         # self.model.to(self.device)

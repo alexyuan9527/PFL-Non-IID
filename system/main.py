@@ -321,7 +321,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # general
     parser.add_argument('-go', "--goal", type=str, default="test", 
-                        help="The goal for this experiment")
+                        help="The goal for this experiment")            # -go 这个参数只会影响文件名
     parser.add_argument('-dev', "--device", type=str, default="cuda",
                         choices=["cpu", "cuda"])
     parser.add_argument('-did', "--device_id", type=str, default="0")
@@ -340,7 +340,7 @@ if __name__ == "__main__":
     parser.add_argument('-jr', "--join_ratio", type=float, default=1.0,
                         help="Ratio of clients per round")
     parser.add_argument('-rjr', "--random_join_ratio", type=bool, default=False,
-                        help="Random ratio of clients per round")
+                        help="Random ratio of clients per round")       # 重要参数，每轮参与的client比例
     parser.add_argument('-nc', "--num_clients", type=int, default=2,
                         help="Total number of clients")
     parser.add_argument('-pv', "--prev", type=int, default=0,
@@ -395,7 +395,7 @@ if __name__ == "__main__":
     # APFL
     parser.add_argument('-al', "--alpha", type=float, default=1.0)
     # Ditto / FedRep
-    parser.add_argument('-pls', "--plocal_steps", type=int, default=1)
+    parser.add_argument('-pls', "--plocal_steps", type=int, default=1)  # 重要参数，Ditto专属
     # MOON
     parser.add_argument('-tau', "--tau", type=float, default=1.0)
     # FedBABU

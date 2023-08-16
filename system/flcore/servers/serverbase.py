@@ -1,10 +1,13 @@
 import torch
 import os
 import numpy as np
+import pandas as pd
 import h5py
 import copy
 import time
 import random
+from utils.picture import plot_acc_loss
+
 
 from utils.data_utils import read_client_data
 from utils.dlg import DLG
@@ -45,8 +48,10 @@ class Server(object):
         self.uploaded_models = []
 
         self.rs_test_acc = []
-        self.rs_test_auc = []
+        self.rs_test_auc = []      # 没用到过
         self.rs_train_loss = []
+        self.rs_test_acc_std = []  # 准确率标准差
+
 
         self.times = times
         self.eval_gap = args.eval_gap
@@ -182,6 +187,13 @@ class Server(object):
                 hf.create_dataset('rs_test_acc', data=self.rs_test_acc)
                 hf.create_dataset('rs_test_auc', data=self.rs_test_auc)
                 hf.create_dataset('rs_train_loss', data=self.rs_train_loss)
+                hf.create_dataset('rs_test_acc_std', data=self.rs_test_acc_std)
+
+            dic = {"test_acc" : self.rs_test_acc, "train_loss" : self.rs_train_loss, "test_acc_std": self.rs_test_acc_std}
+            df = pd.DataFrame(dic)
+            df.to_csv(result_path + "{}.csv".format(algo), index=False)
+            plot_acc_loss(self.rs_train_loss, self.rs_test_acc, result_path + "{}.png".format(algo))
+
 
     def save_item(self, item, item_name):
         if not os.path.exists(self.save_folder_name):
@@ -191,7 +203,10 @@ class Server(object):
     def load_item(self, item_name):
         return torch.load(os.path.join(self.save_folder_name, "server_" + item_name + ".pt"))
 
-    def test_metrics(self):
+    def test_metrics(self):  
+        """
+        返回客户端的id，测试样本数量，预测正确数量，auc
+        """
         if self.eval_new_clients and self.num_new_clients > 0:
             self.fine_tuning_new_clients()
             return self.test_metrics_new_clients()
@@ -210,6 +225,9 @@ class Server(object):
         return ids, num_samples, tot_correct, tot_auc
 
     def train_metrics(self):
+        """
+        返回client的id，训练样本数量，训练误差
+        """
         if self.eval_new_clients and self.num_new_clients > 0:
             return [0], [1], [0]
         
@@ -225,14 +243,18 @@ class Server(object):
         return ids, num_samples, losses
 
     # evaluate selected clients
-    def evaluate(self, acc=None, loss=None):
+    def evaluate(self, acc=None, loss=None, acc_std=None):
+        """
+        保存客户端的平均测试准确率，平均训练误差
+        """
         stats = self.test_metrics()
         stats_train = self.train_metrics()
 
         test_acc = sum(stats[2])*1.0 / sum(stats[1])
         test_auc = sum(stats[3])*1.0 / sum(stats[1])
         train_loss = sum(stats_train[2])*1.0 / sum(stats_train[1])
-        accs = [a / n for a, n in zip(stats[2], stats[1])]
+        acc_ls = [a / n for a, n in zip(stats[2], stats[1])]
+        accs = np.std(acc_ls)
         aucs = [a / n for a, n in zip(stats[3], stats[1])]
         
         if acc == None:
@@ -240,6 +262,11 @@ class Server(object):
         else:
             acc.append(test_acc)
         
+        if acc_std == None:
+            self.rs_test_acc_std.append(accs)
+        else:
+            acc_std.append(accs)
+
         if loss == None:
             self.rs_train_loss.append(train_loss)
         else:
@@ -249,7 +276,7 @@ class Server(object):
         print("Averaged Test Accurancy: {:.4f}".format(test_acc))
         print("Averaged Test AUC: {:.4f}".format(test_auc))
         # self.print_(test_acc, train_acc, train_loss)
-        print("Std Test Accurancy: {:.4f}".format(np.std(accs)))
+        print("Std Test Accurancy: {:.4f}".format(accs))
         print("Std Test AUC: {:.4f}".format(np.std(aucs)))
 
     def print_(self, test_acc, test_auc, train_loss):

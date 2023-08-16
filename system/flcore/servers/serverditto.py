@@ -21,12 +21,14 @@ class Ditto(Server):
         self.Budget = []
 
 
+    # train()在不同算法中有所不同，因此在特定的server类中定义
     def train(self):
         for i in range(self.global_rounds+1):
             s_t = time.time()
             self.selected_clients = self.select_clients()
             self.send_models()
-
+            
+            # evaluate两次，h5文件中loss和acc中偶数序号是global model，奇数序号是personalized model
             if i%self.eval_gap == 0:
                 print(f"\n-------------Round number: {i}-------------")
                 print("\nEvaluate global models")
