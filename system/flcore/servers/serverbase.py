@@ -6,7 +6,7 @@ import h5py
 import copy
 import time
 import random
-from utils.picture import plot_acc_loss
+from utils.picture import plot_acc_loss, plot_acc_loss2
 
 
 from utils.data_utils import read_client_data
@@ -37,6 +37,7 @@ class Server(object):
         self.save_folder_name = args.save_folder_name
         self.top_cnt = 100
         self.auto_break = args.auto_break
+        self.privacy = args.privacy
 
         self.clients = []
         self.selected_clients = []
@@ -50,7 +51,7 @@ class Server(object):
         self.rs_test_acc = []
         self.rs_test_auc = []      # 没用到过
         self.rs_train_loss = []
-        self.rs_test_acc_std = []  # 准确率标准差
+        self.rs_test_acc_std = []  # 准确率的标准差
 
 
         self.times = times
@@ -192,7 +193,10 @@ class Server(object):
             dic = {"test_acc" : self.rs_test_acc, "train_loss" : self.rs_train_loss, "test_acc_std": self.rs_test_acc_std}
             df = pd.DataFrame(dic)
             df.to_csv(result_path + "{}.csv".format(algo), index=False)
-            plot_acc_loss(self.rs_train_loss, self.rs_test_acc, result_path + "{}.png".format(algo))
+            if self.algorithm == "Ditto":
+                plot_acc_loss2(self.rs_train_loss, self.rs_test_acc, self.rs_test_acc_std, result_path + "{}.png".format(algo))
+            else:
+                plot_acc_loss(self.rs_train_loss, self.rs_test_acc, result_path + "{}.png".format(algo))
 
 
     def save_item(self, item, item_name):
@@ -274,10 +278,10 @@ class Server(object):
 
         print("Averaged Train Loss: {:.4f}".format(train_loss))
         print("Averaged Test Accurancy: {:.4f}".format(test_acc))
-        print("Averaged Test AUC: {:.4f}".format(test_auc))
-        # self.print_(test_acc, train_acc, train_loss)
         print("Std Test Accurancy: {:.4f}".format(accs))
-        print("Std Test AUC: {:.4f}".format(np.std(aucs)))
+        # print("Averaged Test AUC: {:.4f}".format(test_auc))
+        # self.print_(test_acc, train_acc, train_loss)
+        # print("Std Test AUC: {:.4f}".format(np.std(aucs)))
 
     def print_(self, test_acc, test_auc, train_loss):
         print("Average Test Accurancy: {:.4f}".format(test_acc))

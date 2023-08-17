@@ -350,8 +350,8 @@ if __name__ == "__main__":
     parser.add_argument('-eg', "--eval_gap", type=int, default=1,
                         help="Rounds gap for evaluation")
     parser.add_argument('-dp', "--privacy", type=bool, default=False,
-                        help="differential privacy")
-    parser.add_argument('-dps', "--dp_sigma", type=float, default=0.0)
+                        help="differential privacy")                    # 重要参数，是否差分隐私
+    parser.add_argument('-dps', "--dp_sigma", type=float, default=0.0)  # 重要参数，差分隐私相关
     parser.add_argument('-sfn', "--save_folder_name", type=str, default='items')
     parser.add_argument('-ab', "--auto_break", type=bool, default=False)
     parser.add_argument('-dlg', "--dlg_eval", type=bool, default=False)
@@ -487,3 +487,4 @@ if __name__ == "__main__":
     
     # print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=20))
     # print(f"\nTotal time cost: {round(time.time()-total_start, 2)}s.")
+    # python main.py -data mnist -m cnn -algo Ditto -gr 10 -did 0 -go piccc

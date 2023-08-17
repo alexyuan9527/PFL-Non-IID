@@ -93,6 +93,8 @@ class Client(object):
         y_prob = []
         y_true = []
         
+        # 停止 autograd 模块的工作，以起到加速和节省显存的作用。
+        # 将该 with 语句包裹起来的部分停止梯度的更新，从而节省了 GPU 算力和显存，但是并不会影响 dropout 和 BN 层的行为
         with torch.no_grad():
             for x, y in testloaderfull:
                 if type(x) == type([]):

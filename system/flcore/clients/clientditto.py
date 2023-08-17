@@ -8,6 +8,7 @@ from flcore.clients.clientbase import Client
 import torch.nn.functional as F
 from sklearn.preprocessing import label_binarize
 from sklearn import metrics
+from utils.privacy import *
 
 
 class clientDitto(Client):
@@ -16,6 +17,7 @@ class clientDitto(Client):
 
         self.mu = args.mu
         self.plocal_steps = args.plocal_steps
+        self.global_rounds = args.global_rounds
 
         self.model_per = copy.deepcopy(self.model)
         self.optimizer_per = PerturbedGradientDescent(
@@ -26,12 +28,20 @@ class clientDitto(Client):
         )
 
     def train(self):
+        """
+        更新全局模型
+        """
         trainloader = self.load_train_data()
         
         start_time = time.time()
 
         # self.model.to(self.device)
-        self.model.train()
+        self.model.train()  # 启用 Batch Normalization 和 Dropout
+
+        # differential privacy
+        if self.privacy:
+            self.model, self.optimizer, trainloader, privacy_engine = \
+                initialize_dp_with_budget(self.model, self.optimizer, trainloader, self.global_rounds)
 
         max_local_epochs = self.local_epochs
         if self.train_slow:
@@ -49,8 +59,8 @@ class clientDitto(Client):
                 output = self.model(x)
                 loss = self.loss(output, y)
                 self.optimizer.zero_grad()
-                loss.backward()
-                self.optimizer.step()
+                loss.backward()          # 将损失 loss 向输入侧进行反向传播，对于需要进行梯度计算的所有变量 x，计算梯度，并将其累积到梯度 x.grad 中备用
+                self.optimizer.step()    # 优化器对 x 的值进行更新
 
         # self.model.cpu()
 
@@ -61,8 +71,15 @@ class clientDitto(Client):
         self.train_time_cost['num_rounds'] += 1
         self.train_time_cost['total_cost'] += time.time() - start_time
 
-        
+        if self.privacy:
+            eps, DELTA = get_dp_params(privacy_engine)
+            print(f"Client {self.id}", f"epsilon = {eps:.2f}, sigma = {DELTA}")
+
+
     def ptrain(self):
+        """
+        更新个性化模型
+        """
         trainloader = self.load_train_data()
 
         start_time = time.time()
