@@ -175,7 +175,7 @@ class Server(object):
         
     def save_results(self):
         algo = self.dataset + "_" + self.algorithm
-        result_path = "../results/"
+        result_path = "E:/Documents/GitHub/results/"
         if not os.path.exists(result_path):
             os.makedirs(result_path)
 
