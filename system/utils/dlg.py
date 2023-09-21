@@ -25,10 +25,10 @@ def DLG(net, origin_grad, target_inputs):
         dummy_data = torch.randn_like(gt_data, requires_grad=True)
         dummy_out = torch.randn_like(gt_out, requires_grad=True)
 
-        optimizer = torch.optim.LBFGS([dummy_data, dummy_out])
+        optimizer = torch.optim.LBFGS([dummy_data, dummy_out])  # L-BFGS
 
         history = [gt_data.data.cpu().numpy(), F.sigmoid(dummy_data).data.cpu().numpy()]
-        for iters in range(100):
+        for iters in range(100):  # 迭代次数
             def closure():
                 optimizer.zero_grad()
 

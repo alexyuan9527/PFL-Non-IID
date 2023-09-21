@@ -381,9 +381,9 @@ if __name__ == "__main__":
     parser.add_argument('-dps', "--dp_sigma", type=float, default=0.0)  # 重要参数，差分隐私相关
     parser.add_argument('-sfn', "--save_folder_name", type=str, default='items')
     parser.add_argument('-ab', "--auto_break", type=bool, default=False)
-    parser.add_argument('-dlg', "--dlg_eval", type=bool, default=False)  # DLG (Deep Leakage from Gradients) Attack
-    parser.add_argument('-dlgg', "--dlg_gap", type=int, default=100)     # DLG (Deep Leakage from Gradients) Attack
-    parser.add_argument('-bnpc', "--batch_num_per_client", type=int, default=2)
+    parser.add_argument('-dlg', "--dlg_eval", type=bool, default=False)          # 重要参数，是否有 DLG
+    parser.add_argument('-dlgg', "--dlg_gap", type=int, default=100)             # 重要参数，DLG 攻击的间隔
+    parser.add_argument('-bnpc', "--batch_num_per_client", type=int, default=2)  # 重要参数，与 DLG 相关
     parser.add_argument('-nnc', "--num_new_clients", type=int, default=0)
     parser.add_argument('-fte', "--fine_tuning_epoch", type=int, default=0)
     # practical
