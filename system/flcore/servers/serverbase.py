@@ -319,7 +319,7 @@ class Server(object):
         psnr_val = 0
         for cid, client_model in zip(self.uploaded_ids, self.uploaded_models):
             client_model.eval()
-            origin_grad = []
+            origin_grad = []  # 梯度更新
             for gp, pp in zip(self.global_model.parameters(), client_model.parameters()):
                 origin_grad.append(gp.data - pp.data)
 
