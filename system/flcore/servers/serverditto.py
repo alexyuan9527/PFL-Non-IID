@@ -137,8 +137,8 @@ class Ditto(Server):
             loss.append(train_loss)
 
         print("Averaged Train Loss: {:.4f}".format(train_loss))
-        print("Averaged Test Accurancy: {:.4f}".format(test_acc))
+        print("Averaged Test Accurancy: {:.4f}".format(test_acc), "   Std Test Accurancy: {:.4f}".format(accs))
         # print("Averaged Test AUC: {:.4f}".format(test_auc))
         # self.print_(test_acc, train_acc, train_loss)
-        print("Std Test Accurancy: {:.4f}".format(accs))
+        # print("Std Test Accurancy: {:.4f}".format(accs))
         # print("Std Test AUC: {:.4f}".format(np.std(aucs)))

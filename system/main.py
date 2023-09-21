@@ -3,6 +3,7 @@ import copy
 import torch
 import argparse
 import os
+import sys
 import time
 import warnings
 import numpy as np
@@ -51,8 +52,8 @@ from flcore.trainmodel.transformer import *
 from utils.result_utils import average_data
 from utils.mem_utils import MemReporter
 
-logger = logging.getLogger()
-logger.setLevel(logging.ERROR)
+# logger = logging.getLogger()
+# logger.setLevel(logging.ERROR)
 
 warnings.simplefilter("ignore")
 torch.manual_seed(0)
@@ -61,6 +62,21 @@ torch.manual_seed(0)
 vocab_size = 98635
 max_len=200
 emb_dim=32
+
+
+# 控制台输出记录到文件
+class Logger(object):
+    def __init__(self, file_name="Default.log", stream=sys.stdout):
+        self.terminal = stream
+        self.log = open(file_name, "a")
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+
+    def flush(self):
+        pass
+
 
 def run(args):
 
@@ -316,8 +332,19 @@ def run(args):
 
 
 if __name__ == "__main__":
-    total_start = time.time()
+    # 自定义目录存放日志文件
+    log_path = '../Logs/'
+    if not os.path.exists(log_path):
+        os.makedirs(log_path)
+    # 日志文件名按照程序运行时间设置
+    log_file_name = log_path + 'log-' + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + '.log'
+    # 记录正常的 print 信息
+    sys.stdout = Logger(log_file_name)
+    # 记录 traceback 异常信息
+    sys.stderr = Logger(log_file_name)
 
+    total_start = time.time()
+    
     parser = argparse.ArgumentParser()
     # general
     parser.add_argument('-go', "--goal", type=str, default="test", 
@@ -335,14 +362,14 @@ if __name__ == "__main__":
     parser.add_argument('-ldg', "--learning_rate_decay_gamma", type=float, default=0.99)
     parser.add_argument('-gr', "--global_rounds", type=int, default=2000)
     parser.add_argument('-ls', "--local_epochs", type=int, default=1, 
-                        help="Multiple update steps in one local epoch.")
+                        help="Multiple update steps in one local epoch.")  # 重要参数，每个 global round 中客户端本地训练的 epochs 数量 
     parser.add_argument('-algo', "--algorithm", type=str, default="FedAvg")
     parser.add_argument('-jr', "--join_ratio", type=float, default=1.0,
                         help="Ratio of clients per round")
     parser.add_argument('-rjr', "--random_join_ratio", type=bool, default=False,
-                        help="Random ratio of clients per round")       # 重要参数，每轮参与的client比例
+                        help="Random ratio of clients per round")       # 重要参数，每轮参与的 client 比例
     parser.add_argument('-nc', "--num_clients", type=int, default=2,
-                        help="Total number of clients")
+                        help="Total number of clients")                 # 重要参数，client 的数量
     parser.add_argument('-pv', "--prev", type=int, default=0,
                         help="Previous Running times")
     parser.add_argument('-t', "--times", type=int, default=1,
@@ -354,8 +381,8 @@ if __name__ == "__main__":
     parser.add_argument('-dps', "--dp_sigma", type=float, default=0.0)  # 重要参数，差分隐私相关
     parser.add_argument('-sfn', "--save_folder_name", type=str, default='items')
     parser.add_argument('-ab', "--auto_break", type=bool, default=False)
-    parser.add_argument('-dlg', "--dlg_eval", type=bool, default=False)
-    parser.add_argument('-dlgg', "--dlg_gap", type=int, default=100)
+    parser.add_argument('-dlg', "--dlg_eval", type=bool, default=False)  # DLG (Deep Leakage from Gradients) Attack
+    parser.add_argument('-dlgg', "--dlg_gap", type=int, default=100)     # DLG (Deep Leakage from Gradients) Attack
     parser.add_argument('-bnpc', "--batch_num_per_client", type=int, default=2)
     parser.add_argument('-nnc', "--num_new_clients", type=int, default=0)
     parser.add_argument('-fte', "--fine_tuning_epoch", type=int, default=0)
@@ -487,4 +514,4 @@ if __name__ == "__main__":
     
     # print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=20))
     # print(f"\nTotal time cost: {round(time.time()-total_start, 2)}s.")
-    # python main.py -data mnist -m cnn -algo Ditto -gr 10 -did 0 -go piccc
+    # python main.py -data mnist -m cnn -algo Ditto -gr 10 -did 0 -nc 5 -dp True -go

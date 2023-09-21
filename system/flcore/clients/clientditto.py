@@ -18,6 +18,7 @@ class clientDitto(Client):
         self.mu = args.mu
         self.plocal_steps = args.plocal_steps
         self.global_rounds = args.global_rounds
+        self.trainloader = self.load_train_data()
 
         self.model_per = copy.deepcopy(self.model)
         self.optimizer_per = PerturbedGradientDescent(
@@ -27,28 +28,26 @@ class clientDitto(Client):
             gamma=args.learning_rate_decay_gamma
         )
 
+        # differential privacy
+        if self.privacy:
+            self.model, self.optimizer, self.trainloader, self.privacy_engine = \
+                initialize_dp_with_budget(self.model, self.optimizer, self.trainloader, self.global_rounds)
+
     def train(self):
         """
         更新全局模型
         """
-        trainloader = self.load_train_data()
-        
         start_time = time.time()
 
         # self.model.to(self.device)
         self.model.train()  # 启用 Batch Normalization 和 Dropout
-
-        # differential privacy
-        if self.privacy:
-            self.model, self.optimizer, trainloader, privacy_engine = \
-                initialize_dp_with_budget(self.model, self.optimizer, trainloader, self.global_rounds)
 
         max_local_epochs = self.local_epochs
         if self.train_slow:
             max_local_epochs = np.random.randint(1, max_local_epochs // 2)
 
         for step in range(max_local_epochs):
-            for i, (x, y) in enumerate(trainloader):
+            for i, (x, y) in enumerate(self.trainloader):
                 if type(x) == type([]):
                     x[0] = x[0].to(self.device)
                 else:
@@ -71,8 +70,8 @@ class clientDitto(Client):
         self.train_time_cost['num_rounds'] += 1
         self.train_time_cost['total_cost'] += time.time() - start_time
 
-        if self.privacy:
-            eps, DELTA = get_dp_params(privacy_engine)
+        if self.privacy and self.id == 0:
+            eps, DELTA = get_dp_params(self.privacy_engine)
             print(f"Client {self.id}", f"epsilon = {eps:.2f}, sigma = {DELTA}")
 
 

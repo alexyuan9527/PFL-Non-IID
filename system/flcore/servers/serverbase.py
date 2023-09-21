@@ -62,7 +62,7 @@ class Server(object):
 
         self.dlg_eval = args.dlg_eval
         self.dlg_gap = args.dlg_gap
-        self.batch_num_per_client = args.batch_num_per_client
+        self.batch_num_per_client = args.batch_num_per_client  # default=2
 
         self.num_new_clients = args.num_new_clients
         self.new_clients = []
@@ -277,8 +277,8 @@ class Server(object):
             loss.append(train_loss)
 
         print("Averaged Train Loss: {:.4f}".format(train_loss))
-        print("Averaged Test Accurancy: {:.4f}".format(test_acc))
-        print("Std Test Accurancy: {:.4f}".format(accs))
+        print("Averaged Test Accurancy: {:.4f}".format(test_acc), "   Std Test Accurancy: {:.4f}".format(accs))
+        # print("Std Test Accurancy: {:.4f}".format(accs))
         # print("Averaged Test AUC: {:.4f}".format(test_auc))
         # self.print_(test_acc, train_acc, train_loss)
         # print("Std Test AUC: {:.4f}".format(np.std(aucs)))
@@ -319,7 +319,7 @@ class Server(object):
         psnr_val = 0
         for cid, client_model in zip(self.uploaded_ids, self.uploaded_models):
             client_model.eval()
-            origin_grad = []
+            origin_grad = []  # 本轮更新的梯度
             for gp, pp in zip(self.global_model.parameters(), client_model.parameters()):
                 origin_grad.append(gp.data - pp.data)
 

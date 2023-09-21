@@ -39,7 +39,7 @@ class FedAvg(Server):
             # [t.join() for t in threads]
 
             self.receive_models()
-            if self.dlg_eval and i%self.dlg_gap == 0:
+            if self.dlg_eval and i%self.dlg_gap == 0:  # DLG (Deep Leakage from Gradients) Attack
                 self.call_dlg(i)
             self.aggregate_parameters()
 
