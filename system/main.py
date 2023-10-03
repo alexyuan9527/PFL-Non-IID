@@ -352,7 +352,7 @@ if __name__ == "__main__":
     parser.add_argument('-dev', "--device", type=str, default="cuda",
                         choices=["cpu", "cuda"])
     parser.add_argument('-did', "--device_id", type=str, default="0")
-    parser.add_argument('-data', "--dataset", type=str, default="mnist")
+    parser.add_argument('-data', "--dataset", type=str, default="mnist")  # 重要参数，数据集
     parser.add_argument('-nb', "--num_classes", type=int, default=10)
     parser.add_argument('-m', "--model", type=str, default="cnn")
     parser.add_argument('-lbs', "--batch_size", type=int, default=10)      # 重要参数，batch size
@@ -360,9 +360,9 @@ if __name__ == "__main__":
                         help="Local learning rate")
     parser.add_argument('-ld', "--learning_rate_decay", type=bool, default=False)
     parser.add_argument('-ldg', "--learning_rate_decay_gamma", type=float, default=0.99)
-    parser.add_argument('-gr', "--global_rounds", type=int, default=2000)
+    parser.add_argument('-gr', "--global_rounds", type=int, default=2000)  # 重要参数，全局轮数
     parser.add_argument('-ls', "--local_epochs", type=int, default=1, 
-                        help="Multiple update steps in one local epoch.")  # 重要参数，每个 global round 中客户端本地训练的 epochs 数量 
+                        help="Multiple update steps in one local epoch.")  # 重要参数，客户端本地训练的 epochs 数量，default=1
     parser.add_argument('-algo', "--algorithm", type=str, default="FedAvg")
     parser.add_argument('-jr', "--join_ratio", type=float, default=1.0,
                         help="Ratio of clients per round")
@@ -404,7 +404,7 @@ if __name__ == "__main__":
     parser.add_argument('-lam', "--lamda", type=float, default=1.0,
                         help="Regularization weight")
     parser.add_argument('-mu', "--mu", type=float, default=0,
-                        help="Proximal rate for FedProx")
+                        help="Proximal rate for FedProx")                  # 重要参数，Ditto 的 λ
     parser.add_argument('-K', "--K", type=int, default=5,
                         help="Number of personalized training steps for pFedMe")
     parser.add_argument('-lrp', "--p_learning_rate", type=float, default=0.01,
@@ -422,7 +422,7 @@ if __name__ == "__main__":
     # APFL
     parser.add_argument('-al', "--alpha", type=float, default=1.0)
     # Ditto / FedRep
-    parser.add_argument('-pls', "--plocal_steps", type=int, default=1)     # 重要参数，Ditto专属
+    parser.add_argument('-pls', "--plocal_steps", type=int, default=1)     # 重要参数，Ditto 专属，个性化模型训练的轮数，default=1
     # MOON
     parser.add_argument('-tau', "--tau", type=float, default=1.0)
     # FedBABU
@@ -514,4 +514,4 @@ if __name__ == "__main__":
     
     # print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=20))
     # print(f"\nTotal time cost: {round(time.time()-total_start, 2)}s.")
-    # python main.py -data mnist -m cnn -algo Ditto -gr 10 -did 0 -nc 5 -dp True -go
+    # python main.py -data mnist -m cnn -algo Ditto -mu 1 -gr 100 -nc 10 -go test

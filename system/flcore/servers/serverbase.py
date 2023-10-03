@@ -327,7 +327,7 @@ class Server(object):
             trainloader = self.clients[cid].load_train_data()
             with torch.no_grad():
                 for i, (x, y) in enumerate(trainloader):
-                    if i >= self.batch_num_per_client:        # default=2
+                    if i >= self.batch_num_per_client:        # default=2, batch size
                         break
 
                     if type(x) == type([]):

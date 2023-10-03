@@ -42,8 +42,7 @@ class Ditto(Server):
                 client.ptrain()
                 client.train()
 
-            # threads = [Thread(target=client.train)
-            #            for client in self.selected_clients]
+            # threads = [Thread(target=client.train) for client in self.selected_clients]
             # [t.start() for t in threads]
             # [t.join() for t in threads]
 
