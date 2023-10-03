@@ -48,7 +48,7 @@ class Ditto(Server):
             # [t.join() for t in threads]
 
             self.receive_models()
-            if self.dlg_eval and i%self.dlg_gap == 0:
+            if self.dlg_eval and i%self.dlg_gap == 0:  # DLG
                 self.call_dlg(i)
             self.aggregate_parameters()
 

@@ -16,7 +16,7 @@ def psnr(original, contrast):
     return PSNR
 
 
-def DLG(net, origin_grad, target_inputs):
+def DLG(net, grad_update, target_inputs):
     criterion = torch.nn.MSELoss()
     cnt = 0
     psnr_val = 0
@@ -28,7 +28,7 @@ def DLG(net, origin_grad, target_inputs):
         optimizer = torch.optim.LBFGS([dummy_data, dummy_out])  # L-BFGS
 
         history = [gt_data.data.cpu().numpy(), F.sigmoid(dummy_data).data.cpu().numpy()]
-        for iters in range(100):  # 迭代次数
+        for iters in range(100):  # DLG 攻击迭代次数
             def closure():
                 optimizer.zero_grad()
 
@@ -37,7 +37,7 @@ def DLG(net, origin_grad, target_inputs):
                 dummy_grad = torch.autograd.grad(dummy_loss, net.parameters(), create_graph=True)
                 
                 grad_diff = 0
-                for gx, gy in zip(dummy_grad, origin_grad): 
+                for gx, gy in zip(dummy_grad, grad_update): 
                     grad_diff += ((gx - gy) ** 2).sum()
                 grad_diff.backward()
                 

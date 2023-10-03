@@ -319,15 +319,15 @@ class Server(object):
         psnr_val = 0
         for cid, client_model in zip(self.uploaded_ids, self.uploaded_models):
             client_model.eval()
-            origin_grad = []  # 梯度更新
+            grad_update = []  # 梯度更新
             for gp, pp in zip(self.global_model.parameters(), client_model.parameters()):
-                origin_grad.append(gp.data - pp.data)
+                grad_update.append(gp.data - pp.data)
 
             target_inputs = []
             trainloader = self.clients[cid].load_train_data()
             with torch.no_grad():
                 for i, (x, y) in enumerate(trainloader):
-                    if i >= self.batch_num_per_client:
+                    if i >= self.batch_num_per_client:        # default=2
                         break
 
                     if type(x) == type([]):
@@ -338,7 +338,7 @@ class Server(object):
                     output = client_model(x)
                     target_inputs.append((x, output))
 
-            d = DLG(client_model, origin_grad, target_inputs)
+            d = DLG(client_model, grad_update, target_inputs)
             if d is not None:
                 psnr_val += d
                 cnt += 1

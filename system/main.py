@@ -348,14 +348,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # general
     parser.add_argument('-go', "--goal", type=str, default="test", 
-                        help="The goal for this experiment")            # -go 这个参数只会影响文件名
+                        help="The goal for this experiment")               # -go 这个参数只会影响文件名
     parser.add_argument('-dev', "--device", type=str, default="cuda",
                         choices=["cpu", "cuda"])
     parser.add_argument('-did', "--device_id", type=str, default="0")
     parser.add_argument('-data', "--dataset", type=str, default="mnist")
     parser.add_argument('-nb', "--num_classes", type=int, default=10)
     parser.add_argument('-m', "--model", type=str, default="cnn")
-    parser.add_argument('-lbs', "--batch_size", type=int, default=10)
+    parser.add_argument('-lbs', "--batch_size", type=int, default=10)      # 重要参数，batch size
     parser.add_argument('-lr', "--local_learning_rate", type=float, default=0.005,
                         help="Local learning rate")
     parser.add_argument('-ld', "--learning_rate_decay", type=bool, default=False)
@@ -367,9 +367,9 @@ if __name__ == "__main__":
     parser.add_argument('-jr', "--join_ratio", type=float, default=1.0,
                         help="Ratio of clients per round")
     parser.add_argument('-rjr', "--random_join_ratio", type=bool, default=False,
-                        help="Random ratio of clients per round")       # 重要参数，每轮参与的 client 比例
+                        help="Random ratio of clients per round")          # 重要参数，每轮参与的 client 比例
     parser.add_argument('-nc', "--num_clients", type=int, default=2,
-                        help="Total number of clients")                 # 重要参数，client 的数量
+                        help="Total number of clients")                    # 重要参数，client 的数量
     parser.add_argument('-pv', "--prev", type=int, default=0,
                         help="Previous Running times")
     parser.add_argument('-t', "--times", type=int, default=1,
@@ -377,8 +377,8 @@ if __name__ == "__main__":
     parser.add_argument('-eg', "--eval_gap", type=int, default=1,
                         help="Rounds gap for evaluation")
     parser.add_argument('-dp', "--privacy", type=bool, default=False,
-                        help="differential privacy")                    # 重要参数，是否差分隐私
-    parser.add_argument('-dps', "--dp_sigma", type=float, default=0.0)  # 重要参数，差分隐私相关
+                        help="differential privacy")                       # 重要参数，是否差分隐私
+    parser.add_argument('-dps', "--dp_sigma", type=float, default=0.0)     # 重要参数，差分隐私相关
     parser.add_argument('-sfn', "--save_folder_name", type=str, default='items')
     parser.add_argument('-ab', "--auto_break", type=bool, default=False)
     parser.add_argument('-dlg', "--dlg_eval", type=bool, default=False)          # 重要参数，是否有 DLG
@@ -422,7 +422,7 @@ if __name__ == "__main__":
     # APFL
     parser.add_argument('-al', "--alpha", type=float, default=1.0)
     # Ditto / FedRep
-    parser.add_argument('-pls', "--plocal_steps", type=int, default=1)  # 重要参数，Ditto专属
+    parser.add_argument('-pls', "--plocal_steps", type=int, default=1)     # 重要参数，Ditto专属
     # MOON
     parser.add_argument('-tau', "--tau", type=float, default=1.0)
     # FedBABU
