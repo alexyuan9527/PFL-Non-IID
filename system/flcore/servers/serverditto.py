@@ -39,8 +39,12 @@ class Ditto(Server):
                 self.evaluate_personalized()
 
             for client in self.selected_clients:
-                client.ptrain()
-                client.train()
+                if client.malicious:
+                    client.mptrain()
+                    client.gauss_attack()
+                else:
+                    client.ptrain()
+                    client.train()
 
             # threads = [Thread(target=client.train) for client in self.selected_clients]
             # [t.start() for t in threads]
@@ -83,13 +87,14 @@ class Ditto(Server):
         num_samples = []
         tot_correct = []
         tot_auc = []
-        for c in self.clients:
+        benign_clients = self.clients[self.mcnum:]
+        for c in benign_clients:
             ct, ns, auc = c.test_metrics_personalized()
             tot_correct.append(ct*1.0)
             tot_auc.append(auc*ns)
             num_samples.append(ns)
 
-        ids = [c.id for c in self.clients]
+        ids = [c.id for c in benign_clients]
 
         return ids, num_samples, tot_correct, tot_auc
 
@@ -99,12 +104,13 @@ class Ditto(Server):
         
         num_samples = []
         losses = []
-        for c in self.clients:
+        benign_clients = self.clients[self.mcnum:]
+        for c in benign_clients:
             cl, ns = c.train_metrics_personalized()
             num_samples.append(ns)
             losses.append(cl*1.0)
 
-        ids = [c.id for c in self.clients]
+        ids = [c.id for c in benign_clients]
 
         return ids, num_samples, losses
 

@@ -2,6 +2,8 @@ import math
 import torch
 import torch.nn.functional as F
 from torch import nn, Tensor
+import torch.nn.init as init
+
 
 batch_size = 10
 
@@ -180,6 +182,14 @@ class FedAvgCNN(nn.Module):
         out = self.fc1(out)
         out = self.fc(out)
         return out
+    
+    # 初始化模型参数为高斯分布
+    def init_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
+                init.normal_(m.weight, mean=0, std=torch.std(m.weight).item())  # 均值为0的高斯分布
+                init.constant_(m.bias, 0)  # 将偏置项初始化为0
+
 
 # ====================================================================================================================
 

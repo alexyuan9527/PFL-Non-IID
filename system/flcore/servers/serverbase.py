@@ -17,6 +17,7 @@ class Server(object):
     def __init__(self, args, times):
         # Set up the main attributes
         self.args = args
+        self.mcnum = args.malicious_clients_num
         self.device = args.device
         self.dataset = args.dataset
         self.num_classes = args.num_classes
@@ -73,12 +74,17 @@ class Server(object):
         for i, train_slow, send_slow in zip(range(self.num_clients), self.train_slow_clients, self.send_slow_clients):
             train_data = read_client_data(self.dataset, i, is_train=True)
             test_data = read_client_data(self.dataset, i, is_train=False)
+            if i < self.mcnum:
+                ma = True
+            else:
+                ma = False
             client = clientObj(self.args, 
                             id=i, 
                             train_samples=len(train_data), 
                             test_samples=len(test_data), 
                             train_slow=train_slow, 
-                            send_slow=send_slow)
+                            send_slow=send_slow,
+                            malicious=ma)
             self.clients.append(client)
 
     # random select slow clients
@@ -218,13 +224,14 @@ class Server(object):
         num_samples = []
         tot_correct = []
         tot_auc = []
-        for c in self.clients:
+        benign_clients = self.clients[self.mcnum:]
+        for c in benign_clients:
             ct, ns, auc = c.test_metrics()
             tot_correct.append(ct*1.0)
             tot_auc.append(auc*ns)
             num_samples.append(ns)
 
-        ids = [c.id for c in self.clients]
+        ids = [c.id for c in benign_clients]
 
         return ids, num_samples, tot_correct, tot_auc
 
@@ -237,12 +244,13 @@ class Server(object):
         
         num_samples = []
         losses = []
-        for c in self.clients:
+        benign_clients = self.clients[self.mcnum:]
+        for c in benign_clients:
             cl, ns = c.train_metrics()
             num_samples.append(ns)
             losses.append(cl*1.0)
 
-        ids = [c.id for c in self.clients]
+        ids = [c.id for c in benign_clients]
 
         return ids, num_samples, losses
 

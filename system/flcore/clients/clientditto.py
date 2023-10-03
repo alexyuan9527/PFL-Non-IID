@@ -109,6 +109,18 @@ class clientDitto(Client):
 
         self.train_time_cost['total_cost'] += time.time() - start_time
 
+
+    def gauss_attack(self):  # 高斯投毒攻击
+        start_time = time.time()
+        self.model.init_weights()
+        self.train_time_cost['total_cost'] += time.time() - start_time
+
+
+    def mptrain(self):  # 空过
+        start_time = time.time()
+        self.train_time_cost['total_cost'] += time.time() - start_time
+
+
     def test_metrics_personalized(self):
         testloaderfull = self.load_test_data()
         # self.model = self.load_model('model')

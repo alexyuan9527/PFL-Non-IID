@@ -1,0 +1,74 @@
+==================================================
+Algorithm: Ditto
+Attackers: 5
+Local batch size: 10
+Local steps: 1
+Local learing rate: 0.005
+Local learing rate decay: False
+Total number of clients: 10
+Clients join in each round: 1.0
+Clients randomly join: False
+Client drop rate: 0.0
+Client select regarding time: False
+Running times: 1
+Dataset: mnist
+Number of classes: 10
+Backbone: cnn
+Using device: cuda
+Using DP: False
+Auto break: False
+Global rounds: 20
+Cuda device id: 0
+DLG attack: False
+Total number of new clients: 0
+Fine tuning epoches on new clients: 0
+==================================================
+
+============= Running time: 0th =============
+Creating server and clients ...
+FedAvgCNN(
+  (conv1): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): MaxPool2d(kernel_size=(2, 2), stride=(2, 2), padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(32, 64, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): MaxPool2d(kernel_size=(2, 2), stride=(2, 2), padding=0, dilation=1, ceil_mode=False)
+  )
+  (fc1): Sequential(
+    (0): Linear(in_features=1024, out_features=512, bias=True)
+    (1): ReLU(inplace=True)
+  )
+  (fc): Linear(in_features=512, out_features=10, bias=True)
+)
+
+Join ratio / total clients: 1.0 / 10
+Finished creating server and clients.
+
+-------------Round number: 0-------------
+
+Evaluate global models
+Averaged Train Loss: 2.3002
+Averaged Test Accurancy: 0.0958    Std Test Accurancy: 0.0651
+
+Evaluate personalized models
+Averaged Train Loss: 2.3125
+Averaged Test Accurancy: 0.0571    Std Test Accurancy: 0.0535
+Traceback (most recent call last):
+  File "main.py", line 514, in <module>
+    run(args)
+  File "main.py", line 319, in run
+    server.train()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\servers\serverditto.py", line 44, in train
+    client.gauss_attack()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\clients\clientditto.py", line 115, in gauss_attack
+    self.model.init_weights()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\trainmodel\models.py", line 190, in init_weights
+    init.normal_(m.weight, mean=0, std=torch.std(m.weight))  # 均值为0的高斯分布
+  File "D:\Software\Anaconda\envs\pfl\lib\site-packages\torch\nn\init.py", line 155, in normal_
+    return _no_grad_normal_(tensor, mean, std)
+  File "D:\Software\Anaconda\envs\pfl\lib\site-packages\torch\nn\init.py", line 19, in _no_grad_normal_
+    return tensor.normal_(mean, std)
+TypeError: normal_(): argument 'std' (position 2) must be float, not Tensor

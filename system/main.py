@@ -347,6 +347,7 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser()
     # general
+    parser.add_argument('-mcnum', "--malicious_clients_num", type=int, default=0)  # 重要参数，恶意客户端数量
     parser.add_argument('-go', "--goal", type=str, default="test", 
                         help="The goal for this experiment")               # -go 这个参数只会影响文件名
     parser.add_argument('-dev', "--device", type=str, default="cuda",
@@ -365,9 +366,9 @@ if __name__ == "__main__":
                         help="Multiple update steps in one local epoch.")  # 重要参数，客户端本地训练的 epochs 数量，default=1
     parser.add_argument('-algo', "--algorithm", type=str, default="FedAvg")
     parser.add_argument('-jr', "--join_ratio", type=float, default=1.0,
-                        help="Ratio of clients per round")
+                        help="Ratio of clients per round")                 # 重要参数，每轮参与的 client 比例
     parser.add_argument('-rjr', "--random_join_ratio", type=bool, default=False,
-                        help="Random ratio of clients per round")          # 重要参数，每轮参与的 client 比例
+                        help="Random ratio of clients per round")          
     parser.add_argument('-nc', "--num_clients", type=int, default=2,
                         help="Total number of clients")                    # 重要参数，client 的数量
     parser.add_argument('-pv', "--prev", type=int, default=0,
@@ -460,6 +461,7 @@ if __name__ == "__main__":
     print("=" * 50)
 
     print("Algorithm: {}".format(args.algorithm))
+    print("Attackers: {}".format(args.malicious_clients_num))
     print("Local batch size: {}".format(args.batch_size))
     print("Local steps: {}".format(args.local_epochs))
     print("Local learing rate: {}".format(args.local_learning_rate))
