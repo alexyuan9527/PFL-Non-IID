@@ -89,8 +89,8 @@ class Client(object):
         # self.model.to(self.device)
         self.model.eval()
 
-        test_acc = 0
-        test_num = 0
+        test_acc = 0  # 预测正确的测试样本数量
+        test_num = 0  # 总共的测试样本数量
         y_prob = []
         y_true = []
         
@@ -124,7 +124,7 @@ class Client(object):
         y_true = np.concatenate(y_true, axis=0)
 
         auc = metrics.roc_auc_score(y_true, y_prob, average='micro')
-        
+        print(test_acc, test_num)
         return test_acc, test_num, auc
 
     def train_metrics(self):

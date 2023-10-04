@@ -1,0 +1,81 @@
+==================================================
+Algorithm: Ditto
+Attackers: 4
+Local batch size: 10
+Local steps: 1
+Local learing rate: 0.005
+Local learing rate decay: False
+Total number of clients: 10
+Clients join in each round: 1.0
+Clients randomly join: False
+Client drop rate: 0.0
+Client select regarding time: False
+Running times: 1
+Dataset: mnist
+Number of classes: 10
+Backbone: cnn
+Using device: cuda
+Using DP: False
+Auto break: False
+Global rounds: 20
+Cuda device id: 0
+DLG attack: False
+Total number of new clients: 0
+Fine tuning epoches on new clients: 0
+==================================================
+
+============= Running time: 0th =============
+Creating server and clients ...
+FedAvgCNN(
+  (conv1): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): MaxPool2d(kernel_size=(2, 2), stride=(2, 2), padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(32, 64, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): MaxPool2d(kernel_size=(2, 2), stride=(2, 2), padding=0, dilation=1, ceil_mode=False)
+  )
+  (fc1): Sequential(
+    (0): Linear(in_features=1024, out_features=512, bias=True)
+    (1): ReLU(inplace=True)
+  )
+  (fc): Linear(in_features=512, out_features=10, bias=True)
+)
+
+Join ratio / total clients: 1.0 / 10
+Finished creating server and clients.
+
+-------------Round number: 0-------------
+
+Evaluate global models
+Averaged Train Loss: 2.3046
+Averaged Test Accurancy: 0.0806    Std Test Accurancy: 0.0636
+
+Evaluate personalized models
+Averaged Train Loss: 2.3046
+Averaged Test Accurancy: 0.0806    Std Test Accurancy: 0.0636
+------------------------- time cost ------------------------- 25.12044930458069
+
+-------------Round number: 1-------------
+
+Evaluate global models
+Averaged Train Loss: 2.1372
+Averaged Test Accurancy: 0.5070    Std Test Accurancy: 0.3718
+
+Evaluate personalized models
+Traceback (most recent call last):
+  File "main.py", line 514, in <module>
+    run(args)
+  File "main.py", line 319, in run
+    server.train()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\servers\serverditto.py", line 39, in train
+    self.evaluate_personalized()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\servers\serverditto.py", line 120, in evaluate_personalized
+    stats_train = self.train_metrics_personalized()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\servers\serverditto.py", line 109, in train_metrics_personalized
+    cl, ns = c.train_metrics_personalized()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\clients\clientditto.py", line 177, in train_metrics_personalized
+    loss += 0.5 * self.mu * torch.norm(gm-pm, p=2)
+KeyboardInterrupt

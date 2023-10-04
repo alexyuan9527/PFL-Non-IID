@@ -1,0 +1,149 @@
+==================================================
+Algorithm: Ditto
+Dataset: cifar10
+Number of classes: 10
+Total number of clients: 20
+Global rounds: 100
+Backbone: cnn
+Attackers: 6
+Ditto lambda: 1.0
+Local batch size: 10
+Local steps: 1
+Local learing rate: 0.005
+Local learing rate decay: False
+Clients join in each round: 1.0
+Clients randomly join: False
+Client drop rate: 0.0
+Client select regarding time: False
+Running times: 1
+Using device: cuda
+Using DP: False
+Auto break: False
+Cuda device id: 0
+DLG attack: False
+Total number of new clients: 0
+Fine tuning epoches on new clients: 0
+==================================================
+
+============= Running time: 0th =============
+Creating server and clients ...
+FedAvgCNN(
+  (conv1): Sequential(
+    (0): Conv2d(3, 32, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): MaxPool2d(kernel_size=(2, 2), stride=(2, 2), padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(32, 64, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): MaxPool2d(kernel_size=(2, 2), stride=(2, 2), padding=0, dilation=1, ceil_mode=False)
+  )
+  (fc1): Sequential(
+    (0): Linear(in_features=1600, out_features=512, bias=True)
+    (1): ReLU(inplace=True)
+  )
+  (fc): Linear(in_features=512, out_features=10, bias=True)
+)
+
+Join ratio / total clients: 1.0 / 20
+Finished creating server and clients.
+
+-------------Round number: 0-------------
+
+Evaluate global models
+0 360
+97 656
+447 744
+0 809
+10 291
+52 491
+0 1499
+5 382
+486 775
+132 1082
+0 1063
+0 794
+0 1363
+0 665
+Averaged Train Loss: 2.3018
+Averaged Test Accurancy: 0.1120    Std Test Accurancy: 0.2085
+
+Evaluate personalized models
+Averaged Train Loss: 2.3018
+Averaged Test Accurancy: 0.1120    Std Test Accurancy: 0.2085
+------------------------- time cost ------------------------- 26.526409149169922
+
+-------------Round number: 1-------------
+
+Evaluate global models
+31 360
+245 656
+1 744
+183 809
+0 291
+41 491
+81 1499
+12 382
+31 775
+1 1082
+480 1063
+0 794
+0 1363
+1 665
+Averaged Train Loss: 2.2788
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 2.7924
+Averaged Test Accurancy: 0.7707    Std Test Accurancy: 0.1976
+------------------------- time cost ------------------------- 30.246233224868774
+
+-------------Round number: 2-------------
+
+Evaluate global models
+31 360
+245 656
+1 744
+183 809
+0 291
+41 491
+81 1499
+12 382
+31 775
+1 1082
+480 1063
+0 794
+0 1363
+1 665
+Averaged Train Loss: 2.2774
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Traceback (most recent call last):
+  File "main.py", line 515, in <module>
+    run(args)
+  File "main.py", line 319, in run
+    server.train()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\servers\serverditto.py", line 39, in train
+    self.evaluate_personalized()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\servers\serverditto.py", line 119, in evaluate_personalized
+    stats = self.test_metrics_personalized()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\servers\serverditto.py", line 92, in test_metrics_personalized
+    ct, ns, auc = c.test_metrics_personalized()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\clients\clientditto.py", line 125, in test_metrics_personalized
+    testloaderfull = self.load_test_data()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\clients\clientbase.py", line 67, in load_test_data
+    test_data = read_client_data(self.dataset, self.id, is_train=False)
+  File "E:\Documents\GitHub\PFL-Non-IID\system\utils\data_utils.py", line 40, in read_client_data
+    test_data = read_data(dataset, idx, is_train)
+  File "E:\Documents\GitHub\PFL-Non-IID\system\utils\data_utils.py", line 21, in read_data
+    test_data = np.load(f, allow_pickle=True)['data'].tolist()
+  File "D:\Software\Anaconda\envs\pfl\lib\site-packages\numpy\lib\npyio.py", line 256, in __getitem__
+    pickle_kwargs=self.pickle_kwargs)
+  File "D:\Software\Anaconda\envs\pfl\lib\site-packages\numpy\lib\format.py", line 748, in read_array
+    array = pickle.load(fp, **pickle_kwargs)
+  File "D:\Software\Anaconda\envs\pfl\lib\zipfile.py", line 930, in read
+    data = self._read1(n)
+  File "D:\Software\Anaconda\envs\pfl\lib\zipfile.py", line 1006, in _read1
+    data = self._decompressor.decompress(data, n)
+KeyboardInterrupt

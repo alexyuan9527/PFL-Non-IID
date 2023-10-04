@@ -74,4 +74,4 @@ class PerturbedGradientDescent(Optimizer):
                 d_p = p.grad.data + group['mu'] * (p.data - g.data)
                 p.data.add_(d_p, alpha=-group['lr'])
         # 更新mu为之前的0.9倍
-        group['mu'] *= 0.9
+        # group['mu'] *= 0.98

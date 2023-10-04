@@ -358,7 +358,7 @@ if __name__ == "__main__":
     parser.add_argument('-m', "--model", type=str, default="cnn")
     parser.add_argument('-lbs', "--batch_size", type=int, default=10)      # 重要参数，batch size
     parser.add_argument('-lr', "--local_learning_rate", type=float, default=0.005,
-                        help="Local learning rate")
+                        help="Local learning rate")                        # 重要参数，学习率
     parser.add_argument('-ld', "--learning_rate_decay", type=bool, default=False)
     parser.add_argument('-ldg', "--learning_rate_decay_gamma", type=float, default=0.99)
     parser.add_argument('-gr', "--global_rounds", type=int, default=2000)  # 重要参数，全局轮数
@@ -461,14 +461,20 @@ if __name__ == "__main__":
     print("=" * 50)
 
     print("Algorithm: {}".format(args.algorithm))
+    print("Dataset: {}".format(args.dataset))
+    print("Number of classes: {}".format(args.num_classes))
+    print("Total number of clients: {}".format(args.num_clients))
+    if not args.auto_break:
+        print("Global rounds: {}".format(args.global_rounds))
+    print("Backbone: {}".format(args.model))
     print("Attackers: {}".format(args.malicious_clients_num))
+    print("Ditto lambda: {}".format(args.mu))
     print("Local batch size: {}".format(args.batch_size))
     print("Local steps: {}".format(args.local_epochs))
     print("Local learing rate: {}".format(args.local_learning_rate))
     print("Local learing rate decay: {}".format(args.learning_rate_decay))
     if args.learning_rate_decay:
         print("Local learing rate decay gamma: {}".format(args.learning_rate_decay_gamma))
-    print("Total number of clients: {}".format(args.num_clients))
     print("Clients join in each round: {}".format(args.join_ratio))
     print("Clients randomly join: {}".format(args.random_join_ratio))
     print("Client drop rate: {}".format(args.client_drop_rate))
@@ -476,16 +482,11 @@ if __name__ == "__main__":
     if args.time_select:
         print("Time threthold: {}".format(args.time_threthold))
     print("Running times: {}".format(args.times))
-    print("Dataset: {}".format(args.dataset))
-    print("Number of classes: {}".format(args.num_classes))
-    print("Backbone: {}".format(args.model))
     print("Using device: {}".format(args.device))
     print("Using DP: {}".format(args.privacy))
     if args.privacy:
         print("Sigma for DP: {}".format(args.dp_sigma))
     print("Auto break: {}".format(args.auto_break))
-    if not args.auto_break:
-        print("Global rounds: {}".format(args.global_rounds))
     if args.device == "cuda":
         print("Cuda device id: {}".format(os.environ["CUDA_VISIBLE_DEVICES"]))
     print("DLG attack: {}".format(args.dlg_eval))
@@ -516,4 +517,6 @@ if __name__ == "__main__":
     
     # print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=20))
     # print(f"\nTotal time cost: {round(time.time()-total_start, 2)}s.")
-    # python main.py -data mnist -m cnn -algo Ditto -mu 1 -gr 100 -nc 10 -go test
+    # python main.py -data mnist -m cnn -algo Ditto -gr 100 -nc 10 -mcnum 4 -go λ_1_attackers_4 -mu 1
+    # python main.py -data mnist -m cnn -algo Ditto -gr 100 -nc 10 -mcnum 4 -go λ_1_0.9_attackers_4 -mu 1
+    # python main.py -data cifar10 -m cnn -algo Ditto -gr 100 -nc 20 -mcnum 6 -go λ_1_attackers_4 -mu 1

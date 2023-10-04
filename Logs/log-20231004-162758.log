@@ -1,0 +1,378 @@
+==================================================
+Algorithm: Ditto
+Dataset: cifar10
+Number of classes: 10
+Total number of clients: 20
+Global rounds: 100
+Backbone: cnn
+Attackers: 6
+Ditto lambda: 0.0
+Local batch size: 10
+Local steps: 1
+Local learing rate: 0.005
+Local learing rate decay: False
+Clients join in each round: 1.0
+Clients randomly join: False
+Client drop rate: 0.0
+Client select regarding time: False
+Running times: 1
+Using device: cuda
+Using DP: False
+Auto break: False
+Cuda device id: 0
+DLG attack: False
+Total number of new clients: 0
+Fine tuning epoches on new clients: 0
+==================================================
+
+============= Running time: 0th =============
+Creating server and clients ...
+FedAvgCNN(
+  (conv1): Sequential(
+    (0): Conv2d(3, 32, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): MaxPool2d(kernel_size=(2, 2), stride=(2, 2), padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(32, 64, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): MaxPool2d(kernel_size=(2, 2), stride=(2, 2), padding=0, dilation=1, ceil_mode=False)
+  )
+  (fc1): Sequential(
+    (0): Linear(in_features=1600, out_features=512, bias=True)
+    (1): ReLU(inplace=True)
+  )
+  (fc): Linear(in_features=512, out_features=10, bias=True)
+)
+
+Join ratio / total clients: 1.0 / 20
+Finished creating server and clients.
+
+-------------Round number: 0-------------
+
+Evaluate global models
+Averaged Train Loss: 2.3018
+Averaged Test Accurancy: 0.1120    Std Test Accurancy: 0.2085
+
+Evaluate personalized models
+Averaged Train Loss: 2.3018
+Averaged Test Accurancy: 0.1120    Std Test Accurancy: 0.2085
+------------------------- time cost ------------------------- 31.396051168441772
+
+-------------Round number: 1-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2774
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.5794
+Averaged Test Accurancy: 0.7825    Std Test Accurancy: 0.1940
+------------------------- time cost ------------------------- 28.79569387435913
+
+-------------Round number: 2-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2769
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.5301
+Averaged Test Accurancy: 0.8072    Std Test Accurancy: 0.1756
+------------------------- time cost ------------------------- 28.002222061157227
+
+-------------Round number: 3-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2748
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.5001
+Averaged Test Accurancy: 0.8162    Std Test Accurancy: 0.1720
+------------------------- time cost ------------------------- 29.115836143493652
+
+-------------Round number: 4-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2766
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.4758
+Averaged Test Accurancy: 0.8258    Std Test Accurancy: 0.1628
+------------------------- time cost ------------------------- 29.578956842422485
+
+-------------Round number: 5-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2757
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.4568
+Averaged Test Accurancy: 0.8321    Std Test Accurancy: 0.1559
+------------------------- time cost ------------------------- 29.13485074043274
+
+-------------Round number: 6-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2770
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.4419
+Averaged Test Accurancy: 0.8386    Std Test Accurancy: 0.1505
+------------------------- time cost ------------------------- 28.83882427215576
+
+-------------Round number: 7-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2776
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.4294
+Averaged Test Accurancy: 0.8452    Std Test Accurancy: 0.1458
+------------------------- time cost ------------------------- 28.051682233810425
+
+-------------Round number: 8-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2783
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.4188
+Averaged Test Accurancy: 0.8489    Std Test Accurancy: 0.1425
+------------------------- time cost ------------------------- 28.602000951766968
+
+-------------Round number: 9-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2781
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.4092
+Averaged Test Accurancy: 0.8529    Std Test Accurancy: 0.1382
+------------------------- time cost ------------------------- 41.26607418060303
+
+-------------Round number: 10-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2776
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.4005
+Averaged Test Accurancy: 0.8561    Std Test Accurancy: 0.1349
+------------------------- time cost ------------------------- 42.58205962181091
+
+-------------Round number: 11-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2779
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.3923
+Averaged Test Accurancy: 0.8587    Std Test Accurancy: 0.1313
+------------------------- time cost ------------------------- 42.64685845375061
+
+-------------Round number: 12-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2779
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.3845
+Averaged Test Accurancy: 0.8608    Std Test Accurancy: 0.1289
+------------------------- time cost ------------------------- 41.57689690589905
+
+-------------Round number: 13-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2786
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.3769
+Averaged Test Accurancy: 0.8637    Std Test Accurancy: 0.1251
+------------------------- time cost ------------------------- 41.22579789161682
+
+-------------Round number: 14-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2792
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.3691
+Averaged Test Accurancy: 0.8656    Std Test Accurancy: 0.1205
+------------------------- time cost ------------------------- 41.53286170959473
+
+-------------Round number: 15-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2794
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.3612
+Averaged Test Accurancy: 0.8676    Std Test Accurancy: 0.1187
+------------------------- time cost ------------------------- 40.927993297576904
+
+-------------Round number: 16-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2792
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.3531
+Averaged Test Accurancy: 0.8696    Std Test Accurancy: 0.1171
+------------------------- time cost ------------------------- 41.22151064872742
+
+-------------Round number: 17-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2796
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.3448
+Averaged Test Accurancy: 0.8713    Std Test Accurancy: 0.1156
+------------------------- time cost ------------------------- 40.80259680747986
+
+-------------Round number: 18-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2796
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.3366
+Averaged Test Accurancy: 0.8728    Std Test Accurancy: 0.1151
+------------------------- time cost ------------------------- 41.4521644115448
+
+-------------Round number: 19-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2791
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.3284
+Averaged Test Accurancy: 0.8749    Std Test Accurancy: 0.1126
+------------------------- time cost ------------------------- 41.3541362285614
+
+-------------Round number: 20-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2789
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.3205
+Averaged Test Accurancy: 0.8761    Std Test Accurancy: 0.1120
+------------------------- time cost ------------------------- 37.33745765686035
+
+-------------Round number: 21-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2796
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.3128
+Averaged Test Accurancy: 0.8779    Std Test Accurancy: 0.1098
+------------------------- time cost ------------------------- 43.69381618499756
+
+-------------Round number: 22-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2792
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.3053
+Averaged Test Accurancy: 0.8777    Std Test Accurancy: 0.1100
+------------------------- time cost ------------------------- 44.43913412094116
+
+-------------Round number: 23-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2800
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.2981
+Averaged Test Accurancy: 0.8782    Std Test Accurancy: 0.1091
+------------------------- time cost ------------------------- 43.49372982978821
+
+-------------Round number: 24-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2796
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.2909
+Averaged Test Accurancy: 0.8787    Std Test Accurancy: 0.1081
+------------------------- time cost ------------------------- 44.02245855331421
+
+-------------Round number: 25-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2800
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.2838
+Averaged Test Accurancy: 0.8793    Std Test Accurancy: 0.1079
+------------------------- time cost ------------------------- 43.797659397125244
+
+-------------Round number: 26-------------
+
+Evaluate global models
+Averaged Train Loss: 2.2801
+Averaged Test Accurancy: 0.1009    Std Test Accurancy: 0.1425
+
+Evaluate personalized models
+Averaged Train Loss: 0.2770
+Averaged Test Accurancy: 0.8796    Std Test Accurancy: 0.1075
+------------------------- time cost ------------------------- 43.96091079711914
+
+-------------Round number: 27-------------
+
+Evaluate global models
+Traceback (most recent call last):
+  File "main.py", line 515, in <module>
+    run(args)
+  File "main.py", line 319, in run
+    server.train()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\servers\serverditto.py", line 35, in train
+    self.evaluate()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\servers\serverbase.py", line 263, in evaluate
+    stats_train = self.train_metrics()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\servers\serverbase.py", line 249, in train_metrics
+    cl, ns = c.train_metrics()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\clients\clientbase.py", line 131, in train_metrics
+    trainloader = self.load_train_data()
+  File "E:\Documents\GitHub\PFL-Non-IID\system\flcore\clients\clientbase.py", line 61, in load_train_data
+    train_data = read_client_data(self.dataset, self.id, is_train=True)
+  File "E:\Documents\GitHub\PFL-Non-IID\system\utils\data_utils.py", line 33, in read_client_data
+    train_data = read_data(dataset, idx, is_train)
+  File "E:\Documents\GitHub\PFL-Non-IID\system\utils\data_utils.py", line 12, in read_data
+    train_data = np.load(f, allow_pickle=True)['data'].tolist()
+  File "D:\Software\Anaconda\envs\pfl\lib\site-packages\numpy\lib\npyio.py", line 256, in __getitem__
+    pickle_kwargs=self.pickle_kwargs)
+  File "D:\Software\Anaconda\envs\pfl\lib\site-packages\numpy\lib\format.py", line 748, in read_array
+    array = pickle.load(fp, **pickle_kwargs)
+  File "D:\Software\Anaconda\envs\pfl\lib\zipfile.py", line 930, in read
+    data = self._read1(n)
+  File "D:\Software\Anaconda\envs\pfl\lib\zipfile.py", line 1006, in _read1
+    data = self._decompressor.decompress(data, n)
+KeyboardInterrupt

@@ -147,7 +147,7 @@ class AmazonMLP(nn.Module):
 #         return x
 
 class FedAvgCNN(nn.Module):
-    def __init__(self, in_features=1, num_classes=10, dim=1024):
+    def __init__(self, in_features=1, num_classes=10, dim=1600):  # self, in_features=1, num_classes=10, dim=1024
         super().__init__()
         self.conv1 = nn.Sequential(
             nn.Conv2d(in_features,
@@ -170,7 +170,7 @@ class FedAvgCNN(nn.Module):
             nn.MaxPool2d(kernel_size=(2, 2))
         )
         self.fc1 = nn.Sequential(
-            nn.Linear(dim, 512), 
+            nn.Linear(1600, 512),   # nn.Linear(dim, 512)
             nn.ReLU(inplace=True)
         )
         self.fc = nn.Linear(512, num_classes)

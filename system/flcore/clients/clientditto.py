@@ -91,7 +91,7 @@ class clientDitto(Client):
             max_local_epochs = np.random.randint(1, max_local_epochs // 2)
 
         for step in range(max_local_epochs):
-            for x, y in trainloader:
+            for x, y in trainloader:    # x, y 是一个 batch 的样本
                 if type(x) == type([]):
                     x[0] = x[0].to(self.device)
                 else:

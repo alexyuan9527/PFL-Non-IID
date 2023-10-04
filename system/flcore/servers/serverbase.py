@@ -140,17 +140,17 @@ class Server(object):
             except ZeroDivisionError:
                 client_time_cost = 0
             if client_time_cost <= self.time_threthold:
-                tot_samples += client.train_samples
+                tot_samples += client.train_samples    # 加上训练样本数量
                 self.uploaded_ids.append(client.id)
-                self.uploaded_weights.append(client.train_samples)
+                self.uploaded_weights.append(client.train_samples)  
                 self.uploaded_models.append(client.model)
-        for i, w in enumerate(self.uploaded_weights):
+        for i, w in enumerate(self.uploaded_weights):  # 模型的权重是 客户端的训练样本数量/总训练样本数量
             self.uploaded_weights[i] = w / tot_samples
 
     def aggregate_parameters(self):
         assert (len(self.uploaded_models) > 0)
 
-        self.global_model = copy.deepcopy(self.uploaded_models[0])
+        self.global_model = copy.deepcopy(self.uploaded_models[-1])
         for param in self.global_model.parameters():
             param.data.zero_()
             
